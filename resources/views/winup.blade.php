@@ -33,7 +33,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">                    
                     <div class="panel-heading center">
-                        <h1>Win Up</h1>
+                        <img src="img\logo2.png">
                         <p>Cadastre-se para ver fotos e videos de seus amigos</p>                    
                     </div>
                 </div>

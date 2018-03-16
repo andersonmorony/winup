@@ -1,10 +1,36 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-@section('content')
-<div class="container">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <style type="text/css">
+        body{
+            background-color: #fafafa !important;
+        }
+        .containerPrincipal
+        {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="container containerPrincipal">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
+                <div class="panel-heading center">
+                    <img src="img\logo2.png">
+                </div>
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
@@ -61,7 +87,15 @@
                     </form>
                 </div>
             </div>
+            <div class="panel panel-default center">
+                <div class="panel-body">
+                    Ainda não possui sua conta? <a href=" {{ url('/') }} ">Criar conta</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-@endsection
+<!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
+</body>
+</html>
