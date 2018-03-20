@@ -19,4 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/finalizando-cadastro', 'user\\DadosUserController@create')->name('finalizando');
 
+
+Route::resource('User/dados-user', 'User\\DadosUserController');
+Route::resource('User/endereco-user', 'User\\EnderecoUserController');

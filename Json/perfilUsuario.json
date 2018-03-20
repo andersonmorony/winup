@@ -1,0 +1,57 @@
+{
+    "fields": [
+        {
+            "name": "datanascimento",
+            "type": "date"
+        },
+        {
+            "name": "sexo",
+            "type": "select",
+            "options":{
+                "0":"Masculino",
+                "1":"Feminino"
+            }
+        },
+        {
+            "name": "telefone",
+            "type": "text"
+        },
+        {
+            "name": "user_id",
+            "type": "integer#unsigned"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users",
+            "onDelete": "cascade"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\User"
+        }
+    ],
+    "validations": [
+        {
+            "field": "datanascimento",
+            "rules": "required"
+        },
+        {
+            "field": "sexo",
+            "rules": "required"
+        },
+        {
+            "field": "telefone",
+            "rules": "required"
+        },
+        {
+            "field": "user_id",
+            "rules": "required"
+        }
+    ]
+}

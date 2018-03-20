@@ -1,0 +1,78 @@
+{
+    "fields": [
+        {
+            "name": "cep",
+            "type": "string"
+        },
+        {
+            "name": "rua",
+            "type": "string"
+        },
+        {
+            "name": "numero",
+            "type": "string"
+        },
+        {
+            "name": "complemento",
+            "type": "string"
+        },
+        {
+            "name": "bairro",
+            "type": "string"
+        },
+        {
+            "name": "cidade",
+            "type": "string"
+        },
+         {
+            "name": "uf",
+            "type": "select",
+            "options": ["AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO"]
+        },
+        {
+            "name": "user_id",
+            "type": "integer#unsigned"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users",
+            "onDelete": "cascade"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\User"
+        }
+    ],
+    "validations": [
+        {
+            "field": "rua",
+            "rules": "required"
+        },
+        {
+            "field": "numero",
+            "rules": "required"
+        },
+        {
+            "field": "cidade",
+            "rules": "required"
+        },
+        {
+            "field": "bairro",
+            "rules": "required"
+        },
+        {
+            "field": "uf",
+            "rules": "required"
+        },
+        {
+            "field": "user_id",
+            "rules": "required"
+        }
+    ]
+}

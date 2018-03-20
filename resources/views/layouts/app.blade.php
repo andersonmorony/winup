@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'WinUP') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -16,6 +16,10 @@
     <style type="text/css">
         body{
             background-color: #fafafa !important;
+        }
+        .containerPrincipal
+        {
+            margin-top: 50px;
         }
     </style>
 </head>
@@ -35,7 +39,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="img\logo100.png" class="img-responsive">
+                        <img src="{{ asset('img\logo100.png') }}" class="img-responsive">
                     </a>
                 </div>
 
