@@ -1,14 +1,12 @@
 <?php
 
-namespace winUp\Http\Controllers\User;
+namespace winUp\Http\Controllers\Admin;
 
-use winUp\Http\Requests;
+use Illuminate\Http\Request;
 use winUp\Http\Controllers\Controller;
-
 use winUp\DadosUser;
 use winUp\User;
 use winUp\EnderecoUser;
-use Illuminate\Http\Request;
 use Auth;
 
 class DadosUserController extends Controller
@@ -20,17 +18,13 @@ class DadosUserController extends Controller
      */
     public function index(Request $request)
     {
-        $usuario_on = Auth::user()->id;
-
-        //dd($usuario_on);
-
-        $dadosuser = DadosUser::select('dados_users.*', 'users.name', 'users.email')
-        ->leftjoin('users','users.id', 'dados_users.user_id')
-        ->where('dados_users.user_id', $usuario_on)
-        ->first();
+        $keyword = $request->get('search');
+        $perPage = 25;
+        
+        $dadosuser = DadosUser::get();
         
         
-        return view('usuario.perfil.show', compact('dadosuser'));
+        return view('admin.user.dados-user.index', compact('dadosuser'));
     }
 
     /**
@@ -84,10 +78,13 @@ class DadosUserController extends Controller
      */
     public function show($id)
     {
+        //$dadosuser = DadosUser::findOrFail($id);
         $dadosuser = DadosUser::select('dados_users.*', 'users.name', 'users.email')
         ->leftjoin('users','users.id', 'dados_users.user_id')
         ->where('dados_users.id', $id)
         ->first();
+
+        //dd($dadosuser);
 
         return view('admin.user.dados-user.show', compact('dadosuser'));
     }
@@ -99,17 +96,18 @@ class DadosUserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit()
+    public function edit($id)
     {
-        $usuario_on = Auth::user()->id;
-
         $dadosuser = DadosUser::select('dados_users.*', 'endereco_users.*', 'endereco_users.id as id_endereco', 'users.name', 'users.email')
         ->leftjoin('endereco_users','endereco_users.user_id','dados_users.user_id')
         ->leftjoin('users','users.id', 'dados_users.user_id')
-        ->where('dados_users.user_id', $usuario_on)->first();
+        ->where('dados_users.id', $id)->first();
 
         $enderecouser = $dadosuser;
-        return view('usuario.perfil.edit', compact('dadosuser', 'enderecouser'));
+
+        //dd($dadosuser);
+
+        return view('admin.user.dados-user.edit', compact('dadosuser', 'enderecouser'));
     }
 
     /**
@@ -120,10 +118,8 @@ class DadosUserController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $usuario_on = Auth::user()->id;
-
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required',
@@ -137,17 +133,15 @@ class DadosUserController extends Controller
             'uf' => 'required'
 		]);
 
-        //dd($request);
-
          $idDados = DadosUser::select('endereco_users.id as id_endereco', 'users.id as id_user')
         ->leftjoin('endereco_users','endereco_users.user_id','dados_users.user_id')
         ->leftjoin('users','users.id', 'dados_users.user_id')
-        ->where('dados_users.user_id', $usuario_on)
+        ->where('dados_users.id', $id)
         ->first();
 
         $requestData = $request->all(); 
 
-        $dadosuser = DadosUser::where('user_id', $usuario_on);
+        $dadosuser = DadosUser::findOrFail($id);
 
         $id_users = User::findOrFail($idDados->id_user);
 
@@ -175,7 +169,7 @@ class DadosUserController extends Controller
             'uf' => $request->uf
         ]);
 
-        return redirect('editar/meu-perfil')->with('flash_message', 'Dados atualizado com sucesso!');
+        return redirect('admin/user/dados-user/'. $id .'/edit')->with('flash_message', 'Dados atualizado com sucesso!');
     }
 
     /**
@@ -190,32 +184,5 @@ class DadosUserController extends Controller
         DadosUser::destroy($id);
 
         return redirect('admin/user/dados-user')->with('flash_message', 'DadosUser deleted!');
-    }
-
-
-    public function senha()
-    {
-        $usuario_on = Auth::user()->id;
-        
-        return view('usuario.perfil.mudarSenha');
-    }
-
-    public function alterSenha(Request $request)
-    {
-        $usuario_on = Auth::user()->id;
-
-
-        $id_users = User::findOrFail($usuario_on);
-
-        if (Hash::check("param1", "param2")) {
-             //add logic here
-            }
-
-        
-        $id_users->update([
-            'password' => bcrypt($data['novaSenha'])
-        ]);
-        
-        return view('usuario.perfil.mudarSenha');
     }
 }

@@ -4,14 +4,14 @@ namespace winUp;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EnderecoUser extends Model
+class Role extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'endereco_users';
+    protected $table = 'roles';
 
     /**
     * The database primary key value.
@@ -25,11 +25,7 @@ class EnderecoUser extends Model
      *
      * @var array
      */
-    protected $fillable = ['cep', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'user_id'];
+    protected $fillable = ['titulo', 'ativo'];
 
-    public function user()
-    {
-        return $this->belongsTo('winUp\User');
-    }
     
 }

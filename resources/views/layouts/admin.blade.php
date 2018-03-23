@@ -13,9 +13,10 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <style type="text/css">
         body{
-            background-color: #fafafa !important;
+            background-color: #000 !important;
         }
         .containerPrincipal
         {
@@ -41,29 +42,17 @@
                         <a class="navbar-brand" href="{{ url('/home') }}">
                             <img src="{{ asset('img\logo100.png') }}" class="img-responsive">
                         </a>
+
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
-                         <form class="navbar-form navbar-left" action="{{ url('search\pessoas') }}" method="POST">
-                            {{ csrf_field() }}
-                            <div class="form-group">
-                             <input type="text" name="search_fiends" id="search_fiends" class="form-control" placeholder="Pesquisar">
-                            </div>
-                            <button type="submit" class="btn btn-default">
-                                <img src="https://png.icons8.com/ios-glyphs/20/000000/search.png">
-                            </button>
-                        </form>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
-                        <!-- Busca -->
-                       
-                        <!-- Busca -->
-
                         <!-- Authentication Links -->
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
@@ -74,10 +63,8 @@
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
-                                
-
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ url('/meu-perfil') }}">Meu Perfil</a></li>
+                                    <li><a href="#">Meu Perfil</a></li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -102,6 +89,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    @stack('panel-border-top-color')
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    @stack('scripts_datatable')
+    
 </body>
 </html>

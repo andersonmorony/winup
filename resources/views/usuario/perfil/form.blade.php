@@ -19,9 +19,8 @@
 <div class="form-group {{ $errors->has('telefone') ? 'has-error' : ''}}">
     <label for="telefone" class="col-md-4 control-label">{{ 'Telefone/Celular' }}</label>
     <div class="col-md-6">
-        <input class="form-control" type="text" name="telefone" id="telefone" required="" placeholder="(XX) XXXX-XXXX">
-            {{ $dadosuser->telefone or ''}}</textarea>
-        {!! $errors->first('telefone', '<p class="help-block">:message</p>') !!}
+        <input class="form-control" type="text" name="telefone" value="{{ $dadosuser->telefone or ''}}" id="telefone" required="" placeholder="(XX) XXXX-XXXX">        
+            {!! $errors->first('telefone', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
 <input type="hidden" name="user_id" value="{{ $user->id or '' }}">

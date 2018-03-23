@@ -1,0 +1,53 @@
+{
+    "fields": [
+        {
+            "name": "post",
+            "type": "text"
+        },
+        {
+            "name": "imagem",
+            "type": "string"
+        },
+        {
+            "name": "video",
+            "type": "string"
+        },
+        {
+            "name": "user_id",
+            "type": "integer#unsigned"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users",
+            "onDelete": "cascade"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\User"
+        }
+    ],
+    "validations": [
+        {
+            "field": "post",
+            "rules": "required"
+        },
+        {
+            "field": "imagem",
+            "rules": "required"
+        },
+        {
+            "field": "video",
+            "rules": "required"
+        },
+        {
+            "field": "user_id",
+            "rules": "required"
+        }
+    ]
+}

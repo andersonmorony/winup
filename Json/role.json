@@ -1,0 +1,22 @@
+{
+    "fields": [
+        {
+            "name": "titulo",
+            "type": "string"
+        },
+        {
+            "name": "ativo",
+            "type": "boolean"
+        }
+    ],
+    "validations": [
+        {
+            "field": "titulo",
+            "rules": "required"
+        },
+        {
+            "field": "ativo",
+            "rules": "required"
+        }
+    ]
+}
