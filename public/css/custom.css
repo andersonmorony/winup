@@ -7,3 +7,13 @@
     border-top-color: red !important;
     border-top-width: 3px;
 }
+.list-group-item:first-child 
+{
+   border-top-right-radius: 0px; 
+    border-top-left-radius: 0px; 
+}
+.dropdown-menu
+{
+	padding: 0px;
+	min-width: 320px;
+}

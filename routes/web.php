@@ -29,8 +29,9 @@ Route::group(['middleware' => 'auth'], function () {
 				Route::PATCH('/editar/meu-perfil', 'User\\DadosUserController@update');
 				Route::get('/editar/minha-senha', 'User\\DadosUserController@senha');
 				Route::PATCH('/editar/minha-senha', 'User\\DadosUserController@alterSenha');
-				Route::POST('/search/pessoas', 'User\\EncontrarAmigosController@index');
-				
+				Route::POST('/search/pessoas', 'User\\EncontrarAmigosController@index');				
+				Route::get('/curtir', 'user\\CurtirController@store');
+				Route::get('/curtirDelete', 'user\\CurtirController@destroy');
 				
 			});
 
@@ -54,3 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::resource('post/posts', 'User\\PostsController');
 
 Route::resource('seguir/seguir', 'User\\SeguirController');
+Route::resource('curtir/curtir', 'User\\CurtirController');
+
+Route::resource('tipo-notificacao', 'Admin\\TipoNotificacaoController');
+Route::resource('notificacao-curtida', 'Admin\\notificacaoCurtidaController');

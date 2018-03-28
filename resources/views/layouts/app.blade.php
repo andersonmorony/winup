@@ -65,6 +65,43 @@
                         <!-- Busca -->
 
                         <!-- Authentication Links -->
+                        <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                    <img src="https://png.icons8.com/ios-glyphs/18/000000/alarm.png">
+                                    <span class="badge">{{ $qtd_notificacao }} </span>
+                                        Notificação 
+                                    <span class="caret"></span>
+                                </a>
+
+                                
+                               
+                                <div class="dropdown-menu list-group">
+                                    @foreach($notificacao as $item)
+                                        @if($item)
+                                         <a href="#" class="list-group-item">
+                                            <small>
+                                                <img src="https://png.icons8.com/color/17/000000/filled-star.png">
+                                                @if($item->usuario_que_curtiu != Auth::user()->id)
+                                                    {{$item->name}} Curtiu sua publicação.
+                                                @else
+                                                    Você Curtiu sua publicação.
+                                                @endif
+                                                 @if(date("d/m/Y", strtotime(NOW())) == date("d/m/Y", strtotime($item->created_at)))
+                                                    <span class="pull-right">agora</span>
+                                                 @else
+                                                    <span class="pull-right">{{ date("d/m/Y", strtotime($item->created_at)) }}</span>
+                                                 @endif
+                                                 
+                                            </small>
+                                         </a>
+                                         @else
+                                         <a href="#" class="list-group-item">
+                                            <span>sem Notificação</span>
+                                        </a>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </li>
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
@@ -102,6 +139,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/post.js') }}"></script>
     @stack('panel-border-top-color')
 </body>
 </html>

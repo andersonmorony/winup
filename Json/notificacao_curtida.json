@@ -1,0 +1,38 @@
+{
+    "fields": [
+        {
+            "name": "curtida_id",
+            "type": "integer#unsigned"
+        },
+        {
+            "name": "notificacao_visualizada",
+            "type": "boolean"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "curtida_id",
+            "references": "id",
+            "on": "curtirs",
+            "onDelete": "cascade"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "curtirs",
+            "type": "belongsTo",
+            "class": "App\\User"
+        }
+    ],
+    "validations": [
+        {
+            "field": "notificacao_visualizada",
+            "rules": "required"
+        },
+        {
+            "field": "curtida_id",
+            "rules": "required"
+        }
+
+    ]
+}
