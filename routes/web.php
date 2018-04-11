@@ -59,3 +59,5 @@ Route::resource('curtir/curtir', 'User\\CurtirController');
 
 Route::resource('tipo-notificacao', 'Admin\\TipoNotificacaoController');
 Route::resource('notificacao-curtida', 'Admin\\notificacaoCurtidaController');
+
+Route::get('notificacao/{name?}/post/{id?}', 'User\\NotificacaoController@index');
