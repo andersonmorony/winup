@@ -32,7 +32,10 @@ Route::group(['middleware' => 'auth'], function () {
 				Route::POST('/search/pessoas', 'User\\EncontrarAmigosController@index');				
 				Route::get('/curtir', 'user\\CurtirController@store');
 				Route::get('/curtirDelete', 'user\\CurtirController@destroy');
-				
+				Route::get('notificacao/{name?}/post/{id?}', 'User\\NotificacaoController@index');
+				Route::resource('post/posts', 'User\\PostsController');
+				Route::resource('seguir/seguir', 'User\\SeguirController');
+				Route::resource('curtir/curtir', 'User\\CurtirController');
 			});
 
 			Route::group(['prefix'=>'admin', 'middleware' => 'role:2'], function () {
@@ -43,6 +46,8 @@ Route::group(['middleware' => 'auth'], function () {
 				Route::resource('user/roles', 'Admin\\RolesController');
 				Route::resource('user/dados-user', 'Admin\\DadosUserController');
 				//Route::resource('user/endereco-user', 'Admin\\EnderecoUserController');
+				Route::resource('tipo-notificacao', 'Admin\\TipoNotificacaoController');
+				Route::resource('notificacao-curtida', 'Admin\\notificacaoCurtidaController');
 
 			});
 			//Fim Middleware apenas para com role 1, Administrador
@@ -52,12 +57,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/finalizando-cadastro', 'user\\DadosUserController@store')->name('finalizando');
 });
 
-Route::resource('post/posts', 'User\\PostsController');
 
-Route::resource('seguir/seguir', 'User\\SeguirController');
-Route::resource('curtir/curtir', 'User\\CurtirController');
 
-Route::resource('tipo-notificacao', 'Admin\\TipoNotificacaoController');
-Route::resource('notificacao-curtida', 'Admin\\notificacaoCurtidaController');
 
-Route::get('notificacao/{name?}/post/{id?}', 'User\\NotificacaoController@index');
+Route::resource('comentario', 'User\\ComentarioController');
+//Comentar post via Ajax
+Route::get('/comentar/post', 'User\\ComentarioController@store');

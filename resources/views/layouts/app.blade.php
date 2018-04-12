@@ -15,6 +15,7 @@ $notificacao = notificacaoCurtida::select('notificacao_curtidas.*','curtirs.user
                         ->get();
 $qtd_notificacao = count($notificacao);
 
+$meu_nome = Auth::user()->name;
 
 @endphp
 
@@ -99,7 +100,8 @@ $qtd_notificacao = count($notificacao);
                                 <div class="dropdown-menu list-group">
                                     @foreach($notificacao as $item)
                                         @if($item)
-                                         <a href='{{ url("notificacao/$item->name/post/$item->id_do_post") }}' class="list-group-item">
+
+                                         <a href='{{ url("notificacao/$meu_nome/post/$item->id_do_post") }}' class="list-group-item">
                                             <small>
                                                 <img src="https://png.icons8.com/color/17/000000/filled-star.png">
                                                 @if($item->usuario_que_curtiu != Auth::user()->id)

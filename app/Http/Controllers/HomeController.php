@@ -8,6 +8,7 @@ use winUp\post;
 use winUp\seguir;
 use winUp\curtir;
 use winUp\notificacaoCurtida;
+use winUp\comentario;
 use DB;
 
 
@@ -65,8 +66,19 @@ class HomeController extends Controller
             $curtida = curtir::where('post_id', $key->post_id)->get();
             $qtd_curtida = count($curtida);
 
-          
+            $comentario = Comentario::where('post_id', $key->post_id)->get();
 
+          
+            if($comentario)
+            {
+                $qtd = 0;
+                foreach ($comentario as $item) {
+
+                    $key->cometarios[$qtd] = $item->comentario;
+                    $qtd++;
+                }
+                $key->qtdComentario = $qtd;
+            }
             
             if($curtida)
             {
@@ -93,7 +105,7 @@ class HomeController extends Controller
         //                 ->get();
         // $qtd_notificacao = count($notificacao);
 
-        //dd($notificacao);
+        //dd($post);
 
         return view('home', compact('post'));
     }

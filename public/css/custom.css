@@ -17,3 +17,18 @@
 	padding: 0px;
 	min-width: 320px;
 }
+.panel-post
+{
+	margin-bottom: 0px !important;
+	border-top-color: #d3e0e9 !important;
+	border-bottom-color: #fff !important;
+	border-left-color: #d3e0e9 !important;
+	border-right-color: #d3e0e9 !important;
+	border-radius: 0px;
+}
+.panel-comment
+{
+	border-top-color: #3097d136 !important;
+	border-radius:0px;
+	background-color: #3097d136 !important;
+}

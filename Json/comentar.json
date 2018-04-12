@@ -1,0 +1,46 @@
+{
+    "fields": [
+        {
+            "name": "user_id",
+            "type": "integer#unsigned"
+        },
+        {
+            "name": "post_id",
+            "type": "integer#unsigned"
+        },
+        {
+            "name": "comentario",
+            "type": "text"
+        },
+        {
+            "name": "imagemPost",
+            "type": "string"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users",
+            "onDelete": "cascade"
+        },
+        {
+            "column": "post_id",
+            "references": "id",
+            "on": "post",
+            "onDelete": "cascade"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\User"
+        },
+        {
+            "name": "post",
+            "type": "belongsTo",
+            "class": "App\\post"
+        }
+    ]
+}

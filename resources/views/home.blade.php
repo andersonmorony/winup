@@ -34,7 +34,7 @@
             @if($post)
 
                 @foreach($post as $item)
-                    <div class="panel panel-default">
+                    <div class="panel panel-default panel-post">
                         <div class="panel-body">
                             <div>
                                 <img src="https://png.icons8.com/ios/40/000000/cat-profile.png">
@@ -106,9 +106,9 @@
                                       </div>
                                     @endif
                                       <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-default"><img src="https://png.icons8.com/windows/17/000000/comments.png">
+                                        <a href="#comentar" type="button" class="btn btn-default"><img src="https://png.icons8.com/windows/17/000000/comments.png">
                                          Comentar
-                                        </button>
+                                        </a>
                                       </div>
                                       <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-default"><img src="https://png.icons8.com/small/17/000000/share.png">
@@ -119,15 +119,47 @@
                             </div>
                         </div>
                     </div>
+                    <div class="panel panel-default panel-comment">
+                       @if($item->qtdComentario > 0)
+                            @foreach($item->cometarios as $comentario)
+                            <div class="panel-body">
+                                <div class="panel panel-default">
+                                  <div class="panel-body">
+                                    <div class="col-md-1">
+                                        <img src="https://png.icons8.com/ios/40/000000/cat-profile.png">
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p>{{$comentario}}</p>
+                                        <span class="badge">
+                                            Curtir
+                                        </span>
+                                    </div>                                
+                                  </div>
+                                </div>
+                            </div>  
+                            @endforeach
+                        @endif                      
+                        <div class="panel-footer">
+                            <div class="input-group input-group">               
+                                <input type="text"  class="form-control" id="{{$item->post_id.$item->user_id}}" placeholder="Comentar" aria-describedby="sizing-addon1">
+                                <span class="input-group-addon" id="sizing-addon1">
+                                    <img src="https://png.icons8.com/ios/17/000000/screenshot.png">
+                                </span>
+                                <span class="input-group-btn">
+                                    <button type="button" data-post="{{$item->post_id}}" data-input="{{$item->post_id.$item->user_id}}" class="btn btn-primary enviar-comentario" type="button">Enviar</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
             @else
                 <div class="alert alert-info" role="alert">
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button><strong>Mensagem</strong>
-                      <br><small>Você ainda não publicou nada <img src="https://png.icons8.com/office/20/000000/crying.png">, <br> publique algo novo ou faça novas amizades!</small><br>
-                      <label for="search_fiends">Click aqui e pesquise novos amigos</label>
-                    </div>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button><strong>Mensagem</strong>
+                  <br><small>Você ainda não publicou nada <img src="https://png.icons8.com/office/20/000000/crying.png">, <br> publique algo novo ou faça novas amizades!</small><br>
+                  <label for="search_fiends">Click aqui e pesquise novos amigos</label>
+                </div>
             @endif
         </div>
     </div>

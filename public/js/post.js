@@ -94,3 +94,52 @@ $(document).ready( function () {
 
     // Fim document
 });
+
+$(document).ready(function(){
+
+    $(".enviar-comentario").click(function(){
+
+        var post_id = $(this).data('post');
+        var text = $(this).data('input');
+        var comentario = $('#'+text).val();
+        $('#'+text).val('');
+
+        if(comentario == '')
+        {
+            $('#'+text).css({'border-color' : 'red'});
+        }
+        else
+        {
+            $('#'+text).css({'border-color' : '#ccc'});
+
+            ComentarPost(post_id, comentario);
+        }
+
+        
+
+    });
+
+     function ComentarPost(post_id, comentario) {
+
+             $.ajax({
+                 url: '/comentar/post',
+                 data: {
+                    'post_id': post_id,
+                    'comentario': comentario,
+                },
+                 success: function (data) {
+
+                     
+                     if(data)
+                     {
+                        return true;
+                     }
+                     else
+                     {
+                        return false;
+                     }
+                 }
+             });
+        };
+
+});
