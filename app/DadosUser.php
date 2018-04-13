@@ -25,7 +25,7 @@ class DadosUser extends Model
      *
      * @var array
      */
-    protected $fillable = ['datanascimento', 'sexo', 'telefone', 'user_id'];
+    protected $fillable = ['datanascimento', 'sexo', 'telefone', 'user_id', 'foto_perfil'];
 
     public function user()
     {

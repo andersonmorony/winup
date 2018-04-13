@@ -63,3 +63,12 @@ Route::group(['middleware' => 'auth'], function () {
 Route::resource('comentario', 'User\\ComentarioController');
 //Comentar post via Ajax
 Route::get('/comentar/post', 'User\\ComentarioController@store');
+
+
+ Route::get('/images/{image}', function($image = null)
+    {
+        $path = storage_path().'/app/imagemPerfil/' . $image;
+        if (file_exists($path)) { 
+            return response()->file($path);
+        }
+    });

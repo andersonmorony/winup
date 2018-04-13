@@ -3,6 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
+            
             @include('usuario.sidebar.perfilUsuario')
 
             <div class="col-md-8">
@@ -23,6 +24,26 @@
                             {{ csrf_field() }}
 
                     <div class="panel panel-default panel-border">
+                        <div class="panel-heading">Imagem</div>
+                        <div class="panel-body" style="">
+                            
+                            <div class="row">
+                              <div class="col-xs-6 col-md-3">
+                                <a href="/images/{{$dadosuser->foto_perfil}}.jpg" class="thumbnail">
+                                    @if($dadosuser->foto_perfil)
+                                    <img src="/images/{{$dadosuser->foto_perfil}}.jpg">
+                                    @else
+                                     <img src="https://png.icons8.com/dotty/100/000000/administrator-male.png">
+                                    @endif
+                                </a>
+                              </div>
+                              
+                            </div>
+                            <input type="file" name="foto">
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
                         <div class="panel-heading">Editar Perfil</div>
                         <div class="panel-body">
                             

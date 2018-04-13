@@ -48,6 +48,11 @@ return [
             'root' => storage_path('app'),
         ],
 
+        'ImagemPerfil' => [
+            'driver' => 'local',
+            'root' => storage_path('app/imagemPerfil'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

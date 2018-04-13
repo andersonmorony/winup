@@ -17,6 +17,7 @@ class CreateDadosUsersTable extends Migration
             $table->timestamps();
             $table->date('datanascimento')->nullable();
             $table->string('sexo');
+            $table->string('foto_perfil');
             $table->text('telefone')->nullable();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

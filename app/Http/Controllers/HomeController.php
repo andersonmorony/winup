@@ -9,6 +9,7 @@ use winUp\seguir;
 use winUp\curtir;
 use winUp\notificacaoCurtida;
 use winUp\comentario;
+use winUp\DadosUser;
 use DB;
 
 
@@ -54,11 +55,11 @@ class HomeController extends Controller
 
         if($sql)
         {
-            $post = DB::select('select posts.*, users.*, posts.id as post_id, posts.created_at as dataCriacao from posts left join users on (users.id = posts.user_id) where posts.user_id = '.$sql.' or posts.user_id ='.$meu_id.' order by dataCriacao desc');
+            $post = DB::select('select posts.*, users.*, posts.id as post_id, posts.created_at as dataCriacao, dados_users.foto_perfil from posts left join users on (users.id = posts.user_id) left join dados_users on (posts.user_id = dados_users.user_id) where posts.user_id = '.$sql.' or posts.user_id ='.$meu_id.' order by dataCriacao desc');
         }
         else
         {
-            $post = DB::select('select posts.*, users.*, posts.id as post_id, posts.created_at as dataCriacao from posts left join users on (users.id = posts.user_id) where posts.user_id ='.$meu_id.' order by dataCriacao desc');
+            $post = DB::select('select posts.*, users.*, posts.id as post_id, posts.created_at as dataCriacao, dadosusers.foto_perfil from posts left join users on (users.id = posts.user_id) left join dadosusers on (posts.user_id = dadosusers.user_id) where posts.user_id ='.$meu_id.' order by dataCriacao desc');
         }
         
         foreach ($post as $key) {
@@ -93,7 +94,13 @@ class HomeController extends Controller
             $key->curtida = $qtd_curtida;
         }
 
-       //dd($post);
+        $foto = DadosUser::select('foto_perfil')
+        ->where('user_id', $meu_id)
+        ->first();
+
+        //dd($foto);
+
+        //dd($post);
 
         // $notificacao = notificacaoCurtida::select('notificacao_curtidas.*','curtirs.user_id as usuario_que_curtiu','curtirs.post_id as post_curtido', 'posts.id as id_do_post', 'posts.user_id as usuario_dono_do_post', 'posts.post', 'users.name')
         //                 ->leftjoin('curtirs','curtirs.id', 'curtida_id')
@@ -107,6 +114,6 @@ class HomeController extends Controller
 
         //dd($post);
 
-        return view('home', compact('post'));
+        return view('home', compact('post','foto'));
     }
 }

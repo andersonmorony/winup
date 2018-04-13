@@ -10,6 +10,9 @@ use winUp\User;
 use winUp\EnderecoUser;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class DadosUserController extends Controller
 {
@@ -29,7 +32,8 @@ class DadosUserController extends Controller
         ->where('dados_users.user_id', $usuario_on)
         ->first();
         
-        
+
+
         return view('usuario.perfil.show', compact('dadosuser'));
     }
 
@@ -99,19 +103,51 @@ class DadosUserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit()
+    public function edit(Request $request)
     {
         $usuario_on = Auth::user()->id;
 
         $dadosuser = DadosUser::select('dados_users.*', 'endereco_users.*', 'endereco_users.id as id_endereco', 'users.name', 'users.email')
         ->leftjoin('endereco_users','endereco_users.user_id','dados_users.user_id')
         ->leftjoin('users','users.id', 'dados_users.user_id')
-        ->where('dados_users.user_id', $usuario_on)->first();
+        ->where('dados_users.user_id', $usuario_on)
+        ->first();        
 
         $enderecouser = $dadosuser;
+
+        //dd($dadosuser);
+
         return view('usuario.perfil.edit', compact('dadosuser', 'enderecouser'));
     }
 
+     public function fileUpload($request)
+    {
+        $id_producao = $request->get('producao');
+        $file = $request->file('foto');
+        $nome_arquivo = '';
+
+        //dd($file);
+
+        $i = 0;
+        $_UP['extensoes'] = array('jpg','JPG', 'PNG', 'png', 'jpeg','JPEG');
+
+        $extension = $file->getClientOriginalExtension();
+
+      
+        if (array_search($extension, $_UP['extensoes']) === false) 
+        {
+            echo "Por favor, envie arquivos com as seguintes extensões: jpg, png, jpeg, gif ou pdf";
+            exit;
+        }
+        $nome_final = md5(time()).'.jpg';
+
+        
+        Storage::disk('ImagemPerfil')->put($nome_final,  File::get($file));
+        $nome_arquivo = $nome_final;      
+
+        
+        return $nome_arquivo;
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -136,8 +172,11 @@ class DadosUserController extends Controller
             'bairro' => 'required',
             'uf' => 'required'
 		]);
+        
 
-        //dd($request);
+        $valor = $this->fileUpload($request);
+
+        //dd($valor);
 
          $idDados = DadosUser::select('endereco_users.id as id_endereco', 'users.id as id_user')
         ->leftjoin('endereco_users','endereco_users.user_id','dados_users.user_id')
@@ -160,6 +199,7 @@ class DadosUserController extends Controller
         ]);
 
         $dadosuser->update([
+            'foto_perfil' => $valor,
             'datanascimento' => $request->datanascimento,
             'sexo' => $request->sexo,
             'telefone' => $request->telefone
@@ -174,6 +214,7 @@ class DadosUserController extends Controller
             'cidade' => $request->cidade,
             'uf' => $request->uf
         ]);
+
 
         return redirect('editar/meu-perfil')->with('flash_message', 'Dados atualizado com sucesso!');
     }

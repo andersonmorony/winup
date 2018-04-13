@@ -36,11 +36,16 @@
                 @foreach($post as $item)
                     <div class="panel panel-default panel-post">
                         <div class="panel-body">
-                            <div>
-                                <img src="https://png.icons8.com/ios/40/000000/cat-profile.png">
+                            <div class="col-md-1" style="margin: 1px; padding: 2px;">
+                                @if($item->foto_perfil)                                
+                                    <img src="/images/{{$item->foto_perfil}}.jpg" width="40" class="img-responsive media-object">
+                                @else
+                                    <img src="https://png.icons8.com/ios/40/000000/cat-profile.png">
+                                @endif
+                            </div>
+
                                 <span>{{ $item->name }}</span>
                                 <small>{{  date("d/m/Y h:s:i", strtotime($item->dataCriacao)) }}</small>
-                            </div>
                             <br>
                             <div>
                                 <p>{{ $item->post }}</p>                            
@@ -122,17 +127,14 @@
                     <div class="panel panel-default panel-comment">
                        @if($item->qtdComentario > 0)
                             @foreach($item->cometarios as $comentario)
-                            <div class="panel-body">
-                                <div class="panel panel-default">
-                                  <div class="panel-body">
+                            <div class="panel-body" style="padding: 5px 10px;">
+                                <div class="panel panel-default" style="margin-bottom:0px;">
+                                  <div class="panel-body" style="padding: 3px;">
                                     <div class="col-md-1">
-                                        <img src="https://png.icons8.com/ios/40/000000/cat-profile.png">
+                                        <img src="https://png.icons8.com/ios/30/000000/cat-profile.png">
                                     </div>
                                     <div class="col-md-7">
-                                        <p>{{$comentario}}</p>
-                                        <span class="badge">
-                                            Curtir
-                                        </span>
+                                        <p style="margin: 4px 0px;">{{$comentario}}</p>
                                     </div>                                
                                   </div>
                                 </div>
