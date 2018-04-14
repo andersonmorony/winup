@@ -51,7 +51,7 @@ class HomeController extends Controller
         
         $sql = implode( ' or posts.user_id =',$array );
 
-       
+       //dd($sql);
 
         if($sql)
         {
@@ -59,15 +59,20 @@ class HomeController extends Controller
         }
         else
         {
-            $post = DB::select('select posts.*, users.*, posts.id as post_id, posts.created_at as dataCriacao, dadosusers.foto_perfil from posts left join users on (users.id = posts.user_id) left join dadosusers on (posts.user_id = dadosusers.user_id) where posts.user_id ='.$meu_id.' order by dataCriacao desc');
+            $post = DB::select('select posts.*, users.*, posts.id as post_id, posts.created_at as dataCriacao, dados_users.foto_perfil from posts left join users on (users.id = posts.user_id) left join dados_users on (posts.user_id = dados_users.user_id) where posts.user_id ='.$meu_id.' order by dataCriacao desc');
         }
-        
+        //dd($post);
+
         foreach ($post as $key) {
 
             $curtida = curtir::where('post_id', $key->post_id)->get();
             $qtd_curtida = count($curtida);
 
-            $comentario = Comentario::where('post_id', $key->post_id)->get();
+            $comentario = Comentario::select('comentarios.*','dados_users.foto_perfil','users.name')
+            ->where('post_id', $key->post_id)
+            ->leftjoin('dados_users','dados_users.user_id','comentarios.user_id')
+            ->leftjoin('users','users.id', 'dados_users.user_id')
+            ->get();
 
           
             if($comentario)
@@ -76,6 +81,9 @@ class HomeController extends Controller
                 foreach ($comentario as $item) {
 
                     $key->cometarios[$qtd] = $item->comentario;
+                    $key->fotoDeQuemComentou[$qtd] = $item->foto_perfil;
+                    $key->dataDoComentario[$qtd] = $item->updated_at;
+                    $key->nomeDoAutorDoComentario[$qtd] = $item->name;
                     $qtd++;
                 }
                 $key->qtdComentario = $qtd;
@@ -94,11 +102,8 @@ class HomeController extends Controller
             $key->curtida = $qtd_curtida;
         }
 
-        $foto = DadosUser::select('foto_perfil')
-        ->where('user_id', $meu_id)
-        ->first();
-
-        //dd($foto);
+        
+        //dd($comentario);
 
         //dd($post);
 
@@ -114,6 +119,6 @@ class HomeController extends Controller
 
         //dd($post);
 
-        return view('home', compact('post','foto'));
+        return view('home', compact('post','comentario'));
     }
 }

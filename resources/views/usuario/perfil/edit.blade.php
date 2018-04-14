@@ -29,9 +29,9 @@
                             
                             <div class="row">
                               <div class="col-xs-6 col-md-3">
-                                <a href="/images/{{$dadosuser->foto_perfil}}.jpg" class="thumbnail">
+                                <a href="/images/{{$dadosuser->foto_perfil}}" class="thumbnail">
                                     @if($dadosuser->foto_perfil)
-                                    <img src="/images/{{$dadosuser->foto_perfil}}.jpg">
+                                    <img src="/images/{{$dadosuser->foto_perfil}}">
                                     @else
                                      <img src="https://png.icons8.com/dotty/100/000000/administrator-male.png">
                                     @endif

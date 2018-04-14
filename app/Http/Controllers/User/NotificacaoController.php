@@ -9,6 +9,7 @@ use winUp\post;
 use winUp\seguir;
 use winUp\curtir;
 use winUp\notificacaoCurtida;
+use winUp\Comentario;
 use DB;
 
 class NotificacaoController extends Controller
@@ -29,7 +30,7 @@ class NotificacaoController extends Controller
         $seguindo = seguir::where('user_id', $meu_id)
                     ->get();
        
-            $post = DB::select('select posts.*, users.*, posts.id as post_id, posts.created_at as dataCriacao from posts left join users on (users.id = posts.user_id) where posts.id = '.$id);
+            $post = DB::select('select posts.*, users.*, posts.id as post_id, posts.created_at as dataCriacao, dados_users.foto_perfil from posts left join users on (users.id = posts.user_id) left join dados_users on (posts.user_id = dados_users.user_id) where posts.id = '.$id);
         
         foreach ($post as $key) {
 
@@ -37,7 +38,25 @@ class NotificacaoController extends Controller
             $qtd_curtida = count($curtida);
 
           
+           $comentario = Comentario::select('comentarios.*','dados_users.foto_perfil','users.name')
+            ->where('post_id', $key->post_id)
+            ->leftjoin('dados_users','dados_users.user_id','comentarios.user_id')
+            ->leftjoin('users','users.id', 'dados_users.user_id')
+            ->get();
 
+            if($comentario)
+            {
+                $qtd = 0;
+                foreach ($comentario as $item) {
+
+                    $key->cometarios[$qtd] = $item->comentario;
+                    $key->fotoDeQuemComentou[$qtd] = $item->foto_perfil;
+                    $key->dataDoComentario[$qtd] = $item->updated_at;
+                    $key->nomeDoAutorDoComentario[$qtd] = $item->name;
+                    $qtd++;;
+                }
+                $key->qtdComentario = $qtd;
+            }
             
             if($curtida)
             {
@@ -53,7 +72,7 @@ class NotificacaoController extends Controller
         }
 
         //dd($post);
-        return view('usuario.notificacao.index', compact('post'));
+        return view('usuario.notificacao.index', compact('post', 'comentario'));
     }
 
     /**

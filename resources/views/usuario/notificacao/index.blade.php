@@ -18,24 +18,40 @@
             @if($post)
 
                 @foreach($post as $item)
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div>
-                                <img src="https://png.icons8.com/ios/40/000000/cat-profile.png">
-                                <span>{{ $item->name }}</span>
-                                <small>{{  date("d/m/Y h:s:i", strtotime($item->dataCriacao)) }}</small>
+                    <div class="panel panel-default panel-post">
+                         <div class="panel-body" style="padding: 5px 10px;">
+                                 <div class="col-md-12">
+                                    <div class="testimonials">
+                                        <div class="active item">
+                                            <div class="carousel-info">
+                                                @if($item->foto_perfil)                                
+                                                    <img src="/images/{{$item->foto_perfil}}" width="40" class="pull-left">
+                                                @else
+                                                    <img src="https://png.icons8.com/ios/40/000000/cat-profile.png" class="pull-left">
+                                                @endif
+                                                <div class="pull-left">
+                                                  <span class="testimonials-name">{{ $item->name }}</span>
+                                                  @if(date("d/m/Y", strtotime(now())) != date("d/m/Y", strtotime($item->dataCriacao)))
+                                                     <span class="testimonials-post">{{  date("d/m/Y", strtotime($item->dataCriacao)) }}</span>
+                                                  @else
+                                                     <span class="testimonials-post">{{  date("h:s", strtotime($item->dataCriacao)) }}</span>
+                                                  @endif
+                                                </div>
+                                              </div>
+                                          <br>
+                                          <blockquote><p>{{ $item->post }}</p></blockquote> 
+                                          @if($item->curtida > 0)
+                                            <p>
+                                                <img src="https://png.icons8.com/color/20/000000/filled-star.png">
+                                                <span class="badge"> {{ $item->curtida }} </span>
+                                            </p>
+                                            
+                                        @endif
+                                        
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <br>
-                            <div>
-                                <p>{{ $item->post }}</p>                            
-                            </div> 
-                            <div>
-                                @if($item->curtida > 0)
-                                    <img src="https://png.icons8.com/color/20/000000/filled-star.png">
-                                    <span class="badge"> {{ $item->curtida }} </span>
-                                @endif
-                            </div>                       
-                        </div>
                         <div class="panel-footer">
                             <div>
                                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
@@ -100,6 +116,49 @@
                                         </button>
                                       </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default panel-comment">
+                       @if($item->qtdComentario > 0)
+                            @for($i = 0; $i < $item->qtdComentario; $i++ )
+                            <div class="panel-body" style="padding: 5px 10px;">
+                                 <div class="col-md-12">
+                                    <div class="testimonials">
+                                        <div class="active item">
+                                          
+                                          <div class="carousel-info">
+                                            @if($item->fotoDeQuemComentou[$i])                                
+                                                <img src="/images/{{$item->fotoDeQuemComentou[$i]}}" width="40" class="pull-left">
+                                            @else
+                                                <img src="https://png.icons8.com/ios/40/000000/cat-profile.png" class="pull-left">
+                                            @endif
+                                            <div class="pull-left">
+                                              <span class="testimonials-name">{{$item->nomeDoAutorDoComentario[$i]}}</span>
+                                                @if(date("d/m/Y", strtotime(now())) != date("d/m/Y", strtotime($item->dataDoComentario[$i])))
+                                                     <span class="testimonials-post">{{  date("d/m/Y", strtotime($item->dataDoComentario[$i])) }}</span>
+                                                @else
+                                                 <span class="testimonials-post">{{  date("G:s A", strtotime($item->dataDoComentario[$i])) }}</span>
+                                                @endif
+                                            </div>
+                                          </div>
+                                          <blockquote class="post-comentario"><p>{{$item->cometarios[$i]}}</p></blockquote>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                            @endfor
+                        @endif                      
+                        <div class="panel-footer">
+                            <div class="input-group input-group">               
+                                <input type="text"  class="form-control" id="{{$item->post_id.$item->user_id}}" placeholder="Comentar" aria-describedby="sizing-addon1">
+                                <span class="input-group-addon" id="sizing-addon1">
+                                    <img src="https://png.icons8.com/ios/17/000000/screenshot.png">
+                                </span>
+                                <span class="input-group-btn">
+                                    <button type="button" data-post="{{$item->post_id}}" data-input="{{$item->post_id.$item->user_id}}" class="btn btn-primary enviar-comentario" type="button">Enviar</button>
+                                </span>
                             </div>
                         </div>
                     </div>
