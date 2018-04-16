@@ -1,9 +1,5 @@
-@extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Criar publicação</div>
 
@@ -119,8 +115,8 @@
                                         </a>
                                       </div>
                                       <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-default"><img src="https://png.icons8.com/small/17/000000/share.png">
-                                            Compartilhar
+                                        <button type="button" class="btn btn-default"><img src="https://png.icons8.com/office/17/000000/matches.png">
+                                            Flamar
                                         </button>
                                       </div>
                                 </div>
@@ -180,6 +176,3 @@
                 </div>
             @endif
         </div>
-    </div>
-</div>
-@endsection

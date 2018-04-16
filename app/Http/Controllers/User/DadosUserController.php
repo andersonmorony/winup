@@ -4,15 +4,21 @@ namespace winUp\Http\Controllers\User;
 
 use winUp\Http\Requests;
 use winUp\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 use winUp\DadosUser;
 use winUp\User;
 use winUp\EnderecoUser;
-use Illuminate\Http\Request;
+use winUp\Comentario;
+use winUp\curtir;
+use winUp\notificacaoCurtida;
 use Auth;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Validator;
+use DB;
+
+
 
 class DadosUserController extends Controller
 {
@@ -31,10 +37,49 @@ class DadosUserController extends Controller
         ->leftjoin('users','users.id', 'dados_users.user_id')
         ->where('dados_users.user_id', $usuario_on)
         ->first();
+
+        $post = DB::select('select posts.*, users.*, posts.id as post_id, posts.created_at as dataCriacao, dados_users.foto_perfil from posts left join users on (users.id = posts.user_id) left join dados_users on (posts.user_id = dados_users.user_id) where posts.user_id = '.$usuario_on.' order by dataCriacao desc' );
         
+        foreach ($post as $key) {
 
+            $curtida = curtir::where('post_id', $key->post_id)->get();
+            $qtd_curtida = count($curtida);
 
-        return view('usuario.perfil.show', compact('dadosuser'));
+          
+           $comentario = Comentario::select('comentarios.*','dados_users.foto_perfil','users.name')
+            ->where('post_id', $key->post_id)
+            ->leftjoin('dados_users','dados_users.user_id','comentarios.user_id')
+            ->leftjoin('users','users.id', 'dados_users.user_id')
+            ->get();
+
+            if($comentario)
+            {
+                $qtd = 0;
+                foreach ($comentario as $item) {
+
+                    $key->cometarios[$qtd] = $item->comentario;
+                    $key->fotoDeQuemComentou[$qtd] = $item->foto_perfil;
+                    $key->dataDoComentario[$qtd] = $item->updated_at;
+                    $key->nomeDoAutorDoComentario[$qtd] = $item->name;
+                    $qtd++;;
+                }
+                $key->qtdComentario = $qtd;
+            }
+            
+            if($curtida)
+            {
+                $qtd = 0;
+                foreach ($curtida as $item) {
+
+                    $key->usuario_curtiu[$qtd] = $item->user_id;
+                    $qtd++;
+                }
+            }
+
+            $key->curtida = $qtd_curtida;
+        }
+
+        return view('usuario.perfil.show', compact('dadosuser','post'));
     }
 
     /**
@@ -126,24 +171,27 @@ class DadosUserController extends Controller
         $file = $request->file('foto');
         $nome_arquivo = '';
 
-        //dd($file);
+        if($file = $request->file('foto'))
+        {
+            $i = 0;
+            $_UP['extensoes'] = array('jpg','JPG', 'PNG', 'png', 'jpeg','JPEG');
 
-        $i = 0;
-        $_UP['extensoes'] = array('jpg','JPG', 'PNG', 'png', 'jpeg','JPEG');
+            $extension = $file->getClientOriginalExtension();
 
-        $extension = $file->getClientOriginalExtension();
+          
+            if (array_search($extension, $_UP['extensoes']) === false) 
+            {
+                echo "Por favor, envie arquivos com as seguintes extensões: jpg, png, jpeg, gif ou pdf";
+                exit;
+            }
+            $nome_final = md5(time()).'.jpg';
+
+            
+            Storage::disk('ImagemPerfil')->put($nome_final,  File::get($file));
+            $nome_arquivo = $nome_final;
+        }
 
       
-        if (array_search($extension, $_UP['extensoes']) === false) 
-        {
-            echo "Por favor, envie arquivos com as seguintes extensões: jpg, png, jpeg, gif ou pdf";
-            exit;
-        }
-        $nome_final = md5(time()).'.jpg';
-
-        
-        Storage::disk('ImagemPerfil')->put($nome_final,  File::get($file));
-        $nome_arquivo = $nome_final;      
 
         
         return $nome_arquivo;
@@ -198,12 +246,23 @@ class DadosUserController extends Controller
             'email' => $request->email
         ]);
 
-        $dadosuser->update([
-            'foto_perfil' => $valor,
-            'datanascimento' => $request->datanascimento,
-            'sexo' => $request->sexo,
-            'telefone' => $request->telefone
-        ]);
+        if($valor)
+        {
+            $dadosuser->update([                
+                'foto_perfil' => $valor,
+                'datanascimento' => $request->datanascimento,
+                'sexo' => $request->sexo,
+                'telefone' => $request->telefone
+            ]);  
+        }
+        else
+        {            
+            $dadosuser->update([
+                'datanascimento' => $request->datanascimento,
+                'sexo' => $request->sexo,
+                'telefone' => $request->telefone
+            ]);
+        }
 
         $enderecouser->update([
             'cep' => $request->cep,
