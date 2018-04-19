@@ -8,15 +8,14 @@
                 <div class="panel-heading">Criar publicação</div>
 
                 <div class="panel-body" style="padding: 5px;">
-                    <form method="POST" action="{{ url('/post/posts') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                    <form method="POST" id="criarPost" action="{{ url('/post/posts') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="col-md-12">                            
                             <div class="form-group">
                                 <textarea rows="4" name="post" type="textarea" id="post" required class="form-control" placeholder="Em que você estar pensando, {{ Auth::user()->name }} ?"></textarea>                            
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-sm btn-primary pull-right">Publicar</button>
-                        
+                        <button type="submit" class="btn btn-sm btn-primary pull-right">Publicar</button>                        
                     </form>
                 </div>
             </div>

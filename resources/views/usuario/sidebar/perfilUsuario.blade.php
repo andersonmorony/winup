@@ -11,7 +11,13 @@ $dadosuser = DadosUser::select('dados_users.*', 'users.name', 'users.email')
 @endphp
 
 <div class="col-md-3">
-
+    <a href="/images/{{$dadosuser->foto_perfil}}" class="thumbnail" width="300px;" height="300px;">
+        @if($dadosuser->foto_perfil)
+        <img src="/images/{{$dadosuser->foto_perfil}}" class="img-rounded img-responsive">
+        @else
+         <img src="https://png.icons8.com/dotty/100/000000/administrator-male.png" class="img-rounded img-responsive">
+        @endif
+    </a>
     <div class="panel panel-default panel-border">
         <div class="panel-heading">Meu Dados</div>
         <div class="panel-body">                      

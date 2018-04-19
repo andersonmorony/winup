@@ -163,6 +163,7 @@ $meu_nome = Auth::user()->name;
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/post.js') }}"></script>
+    <script src="{{ asset('js/dropzone.js') }}"></script>
     @stack('panel-border-top-color')
 </body>
 </html>

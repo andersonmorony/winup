@@ -143,3 +143,11 @@ $(document).ready(function(){
         };
 
 });
+
+$(document).ready(function(){
+
+ $('#criarPost').bind('submit', true);
+
+});
+
+

@@ -160,18 +160,28 @@ Licensed under MIT
 @media (max-width:768px)
 {
     
-.fb-profile-text>h1{
-    font-weight: 700;
-    font-size:14px;
-}
+    .fb-profile-text>h1{
+        font-weight: 700;
+        font-size:14px;
+    }
 
-.fb-image-profile
-{
-    margin: -45px 10px 0px 25px;
-    z-index: 9;
-    width: 20%;
-    min-width: 20%;  
+    .fb-image-profile
+    {
+        margin: -45px 10px 0px 25px;
+        z-index: 9;
+        width: 20%;
+        min-width: 20%;  
+    }
+    .cover > img {
+       width: 100%;
+       top: 50%;
+    }
 }
+@media (max-width:968px)
+{
+    .espaco-capa{
+        margin-top: 0px !important;
+    }
 }
 
 .cover {
@@ -184,4 +194,24 @@ Licensed under MIT
    width: 100%;
    top: 50%;
    margin-top: -40%;
+}
+
+
+.dropzone {
+  height: 200px;
+  border-width: 2px;
+  margin-bottom: 20px;
+}
+
+/* skin.css Style*/
+.dropzone {
+  color: #ccc;
+  border-style: dashed;
+  border-color: #ccc;
+  line-height: 200px;
+  text-align: center
+}
+.dz-preview {
+  color: #222;
+  border-color: #222;
 }
